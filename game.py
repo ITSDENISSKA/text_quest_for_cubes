@@ -1,18 +1,22 @@
 import sys
 
+from player import Player
 from settings import *
 from messages import *
 
 
+# класс Game, отвечающий за игру
 class Game:
-    def __init__(self, player):
+    def __init__(self):
         self.room_number = 0
-        self.player = player
+        self.player =  Player()
         print(messages["start_messages"])
 
+    # метод отвечающий за начало игры
     def start_game(self):
         self.print_text()
 
+    # метод отвечающий за написание текста комнаты, вывод и сбор данных
     def print_text(self):
         print(room_description[room_names[self.room_number]])
         if self.room_number in room_with_objects and rooms_objects[
@@ -37,6 +41,7 @@ class Game:
             self.end()
         self.print_text()
 
+    # метод отвечающий за вывод комнат, в которые можно пойти
     def print_possible_rooms(self, possible_rooms):
         possible_variants = list()
         for number, room in enumerate(possible_rooms):
@@ -48,6 +53,7 @@ class Game:
             choice = input()
         return choice
 
+    # метод отвечающий за добавление вещи в инвентарь игрока
     def set_item_to_player(self):
         if not self.player.set_item(rooms_objects[room_names[self.room_number]]):
             print(messages["inventory_error"] + self.player.get_inventory()[-1] + "? (Да/Нет)")
@@ -59,6 +65,7 @@ class Game:
                 self.player.get_inventory()[-1] = rooms_objects[room_names[self.room_number]]
         print(messages["update_inventory"] + ", ".join(self.player.get_inventory()))
 
+    # метод отвечающий за битву с финальным боссом
     def fight(self, stage):
         stage_name = stages[stage]
         print(fight_messages[f"{stage_name}_hit"])
@@ -88,6 +95,7 @@ class Game:
                 print(endings["ending_with_nothing"])
             sys.exit(0)
 
+    # метод отвечающий за конец игры
     def end(self):
         if self.room_number == 10:
             print(endings["ending_without_fight"])

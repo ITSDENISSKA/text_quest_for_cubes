@@ -1,7 +1,7 @@
 from game import Game
-from player import Player
 
 if __name__ == "__main__":
-    player = Player()
-    game = Game(player)
+    # создание экземляра класса Game
+    game = Game()
+    # запуск игры
     game.start_game()
